@@ -32,13 +32,9 @@ class AuthController extends Controller
                 } else {
                     return http_response_code(404);
                 }
-            } else {
+            }else {
                 $query = DB::update('update users set full_name=?, profile_pic_link=? where username = ?', [$request->name,$request->profile_pic_link,$request->username]);
-                if(!$query){
-                    return response()->json(["Something Went Wrong !"],404);
-                }else{
-                    return response(['user' => $user, 'token' => $user->createToken('my-app-token')->plainTextToken], 201);
-                }
+                return response(['user' => $user, 'token' => $user->createToken('my-app-token')->plainTextToken], 201);
             }
         }
     }

@@ -51,15 +51,16 @@ class PostController extends Controller
                 return response("Sorry, your file was not uploaded.");
             } else {
                 if(move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
-                    return response($target_file = $target_dir . basename($_FILES["file"]["name"]));
-//                    $sql1 = "INSERT INTO post VALUES('','$user_id','$content','$pic','','','$date_time')";
-//                    if ($conn->query($sql1) === TRUE) {
-//                        $sql2 = "SELECT post.*, auth.id as user_id, auth.name, auth.username, auth.addr FROM auth Inner Join post on post.user_id=auth.id Where id='$conn->insert_id'";
-//                        $result = $conn->query($sql2);
-//                        if ($result->num_rows > 0) {
-//                            echo $result->fetch_assoc();
-//                        }
-//                    }
+                    $query1 = DB::table('posts')->insertGetId(['id'=>'','user_id'=>$user_id,'caption'=>$caption,'pic'=>$pic,'like_count'=>'','comment_count'=>'','date_time'=>$date_time]);
+                    if($query1) {
+                        $sql2 = DB::select("SELECT post.*, auth.id as user_id, auth.name, auth.username, auth.addr FROM auth Inner Join post on post.user_id=auth.id Where id=?",[]);
+
+                    }
+                               $result = $conn->query($sql2);
+                        if ($result->num_rows > 0) {
+                            echo $result->fetch_assoc();
+                        }
+                    }
                 } else {
                     return response("Sorry, there was an error uploading your file.");
                 }

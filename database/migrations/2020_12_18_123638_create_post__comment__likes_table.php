@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class RenameCommentRepliesToPostCommentReplies extends Migration
+class CreatePostCommentLikesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class RenameCommentRepliesToPostCommentReplies extends Migration
      */
     public function up()
     {
-        Schema::table('comment_likes', function (Blueprint $table) {
-            Schema::rename('comment_replies', 'post_comment_replies');
+        Schema::create('post__comment__likes', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('comment_id');
+            $table->integer('user_id');
+            $table->dateTime('date_time');
         });
     }
 
@@ -25,8 +28,6 @@ class RenameCommentRepliesToPostCommentReplies extends Migration
      */
     public function down()
     {
-        Schema::table('comment_likes', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('post__comment__likes');
     }
 }
